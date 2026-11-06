@@ -37,7 +37,7 @@ jobs:
           echo "история целая (forced=$FORCED, ref=$REF)"
 
       - name: Checkout (полная история)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
