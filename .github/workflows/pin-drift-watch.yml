@@ -1,0 +1,55 @@
+# Волна ×5-финал · repo-doctrine#33 — «Пин-дозор аккаунта»: еженедельная живая сверка
+# всех uses-SHA через API с авто-issue.
+#
+# Урок волны FIX-2: dependabot-волна пронесла фальшивые пины
+# (github-script@3a2844b7 — SHA не соответствует тегу v9.0.0; codeql-action@33d7b85 — 404),
+# нащупанные РУЧНЫМ сканом 35 пар (action, ref). Этот дозор повторяет метод машиной:
+#   1. живой API собирает все .github/workflows всех неархивных реп владельца;
+#   2. каждый 40-hex SHA сверяется GET commits/{sha} (404 = левый пин);
+#   3. теговый комментарий (#vX.Y.Z) сверяется с живым тегом апстрима (правда != байты);
+#   4. теговые рефсы (@v4) помечаются не-каноном (политика аккаунта: полный SHA);
+#   5. итог — одна сводка в job summary; при проблемах — append-only issue + красный маяк.
+#
+# Ритм без шума: 0 проблем = ни коммита, ни issue.
+# Токен: секрет W3_PAT (охват всех приватных реп) или github.token — тогда дозор
+# честно докладывает «видны только публичные» (ограничение скоупа, не ошибка).
+# Крон 03:37 UTC субботы — вне топовых часов и вне расписаний соседей
+# (self-audit пн 04:17, door-lint 04:17 daily, genome-reconcile чт 03:23).
+
+name: pin-drift-watch
+
+on:
+  schedule:
+    - cron: '37 3 * * 6'
+  workflow_dispatch:
+    inputs:
+      apply_issue:
+        description: 'true = заводить append-only issue при проблемных пинах'
+        required: false
+        default: 'true'
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: pin-drift-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout (пин по SHA — канон аккаунта)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Самопроверка парсера (офлайн, ноль API)
+        run: python3 scripts/pin_drift_watch.py --selftest
+
+      - name: Живая сверка пинов всего аккаунта
+        env:
+          GITHUB_TOKEN: ${{ secrets.W3_PAT || github.token }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          APPLY_ISSUE: ${{ inputs.apply_issue || 'true' }}
+        run: python3 scripts/pin_drift_watch.py --owner "$GITHUB_REPOSITORY_OWNER"
