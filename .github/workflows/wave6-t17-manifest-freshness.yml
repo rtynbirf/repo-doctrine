@@ -1,0 +1,34 @@
+# Волна ×6 · 6-D · repo-doctrine#24 — T17 «Манифест свежести: генерится, а не пишется».
+# make manifest-check = пересборка в память + сравнение: манифеста нет, стёрта шапка
+# GENERATED (ручная правка) или расхождение строк — красный с точным приговором.
+# Живые файлы (PULSE.md, mutations.yaml, demo-badge.md — их ведут воркфлоу) вне
+# заморозки, граница объявлена в шапке манифеста.
+# Храповик: существующие workflows репо не тронуты, это отдельный новый гейт.
+name: wave6-t17-manifest-freshness
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wave6-t17-manifest-freshness
+  cancel-in-progress: false
+
+jobs:
+  manifest-freshness:
+    name: manifest-freshness
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout (пин по SHA — учитель OpenSSF Scorecard)
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: manifest-freshness — гейт «манифест генерится, а не пишется»
+        run: make manifest-check
+
+      - name: Тесты манифеста (храповик: тесты только добавляются)
+        run: python3 -m unittest discover -s tests -p "test_manifest_check*.py" -v
