@@ -1,0 +1,88 @@
+# Волна ×3 · W3-F2 · repo-doctrine#17 — «Иммунитет-контур»: страж-маяк прямого пуша.
+#
+# Сингулярный ход issue #17, слой 2 (приватные без платного rulesets):
+# прямой пуш в main без ДПР = 🔴 прогон-маяк (громкое падение).
+# Слой 1 (публичные rulesets 26/26) — API-пломба, команды описаны в
+# доктрине 15-иммунитет-контур-2026-11-09.md (этот же коммит).
+#
+# Универсальный YAML: размножается sha-fast-forward (копия байт-в-байт)
+# во все приватные репо. Режимы: strict (по умолчанию) — падает на нарушении;
+# observe — репо-переменной WAVE3_SENTRY_STRICT=false, только докладывает.
+#
+# Белый список авторов: dependabot[bot], github-actions[bot], web-flow
+# (мерж через UI) + WAVE3_ALLOW_DIRECT (репо-переменная, comma-список).
+# Слияния ДПР распознаются по сообщению «Merge pull request…»/«Merge branch…».
+# Существующие workflows (guardian-tripwire, self-audit) не тронуты.
+
+name: wave3-immunity-sentry
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wave3-immunity-sentry
+  cancel-in-progress: false
+
+jobs:
+  sentry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Страж прямого пуша в main
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_PATH: ${{ github.event_path }}
+          ACTOR: ${{ github.actor }}
+          EXTRA_ALLOW: ${{ vars.WAVE3_ALLOW_DIRECT }}
+          STRICT: ${{ vars.WAVE3_SENTRY_STRICT || 'true' }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re, sys
+
+          if os.environ.get("EVENT_NAME") != "push":
+              print("🟡 ручной прогон: страж в режиме самопроверки — конфигурация читаема")
+              sys.exit(0)
+
+          with open(os.environ["EVENT_PATH"], encoding="utf-8") as fh:
+              payload = json.load(fh)
+          head = payload.get("head_commit") or {}
+          msg = head.get("message") or ""
+
+          if re.match(r"^Merge (pull request|branch)", msg):
+              print("🟢 слияние ДПР/ветки — конвенция соблюдена, маяк спит")
+              sys.exit(0)
+
+          authors = set()
+          for src in (head.get("author") or {}, head.get("committer") or {},
+                      {"username": os.environ.get("ACTOR", "")}):
+              name = (src or {}).get("username") or ""
+              if name:
+                  authors.add(name)
+
+          allow = {"dependabot[bot]", "github-actions[bot]", "web-flow"}
+          allow |= {x.strip() for x in (os.environ.get("EXTRA_ALLOW") or "").split(",")
+                    if x.strip()}
+          strangers = sorted(authors - allow)
+
+          if not strangers:
+              print("🟢 прямой пуш из белого списка:", ", ".join(sorted(authors)))
+              sys.exit(0)
+
+          report = ("🔴 СТРАЖ-МАЯК: прямой пуш в main без ДПР\n"
+                    + "Авторы вне белого списка: " + ", ".join(strangers) + "\n"
+                    + "Первое сообщение: " + (msg.splitlines() or ["(пусто)"])[0] + "\n"
+                    + "Конвенция: работа через ДПР; экстренный обход — отдельным решением роя.")
+          print(report)
+          summary = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary:
+              with open(summary, "a", encoding="utf-8") as fh:
+                  fh.write(report + "\n")
+
+          if (os.environ.get("STRICT") or "true").lower() == "true":
+              sys.exit(1)
+          print("🟡 режим observe: нарушение зафиксировано, прогон не краснеет")
+          PY

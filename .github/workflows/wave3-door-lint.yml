@@ -1,0 +1,55 @@
+# Волна ×3 · W3-F2 · repo-doctrine#30 — «Дверь-линтер»: у каждого schedule — дверь workflow_dispatch.
+#
+# Принцип §2 доктрины: cron без ручной двери — чёрный ящик: его нельзя
+# перезапустить точечно после инцидента, а через 60 дней неактивности
+# GitHub отключает его молча.
+#
+# Роль doctrine_lint из issue #30 исполняет wave3-door-lint (имя волны ×3,
+# чтобы не пересечься с чужими волнами; доктрина — 16-двери-диспетч-2026-11-09.md).
+# Крон 04:17 UTC — сознательно вне топовых часов. Линтер только читает и
+# докладывает; при непустом NO-DOOR заводит НОВОЕ append-only issue в
+# repo-doctrine с готовыми YAML-фрагментами (слот «генератор патчей»).
+#
+# Токен: если секрет W3_PAT не задан, github.token видит только публичные
+# репо (без мутаций в чужих); PAT на 41 репо — следующий прогон.
+# Существующие workflows (guardian-tripwire, self-audit) не тронуты.
+
+name: wave3-door-lint
+
+on:
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+    inputs:
+      apply_issue:
+        description: 'true = заводить append-only issue при непустом NO-DOOR'
+        required: false
+        default: 'true'
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: wave3-door-lint
+  cancel-in-progress: false
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Линтер дверей workflow_dispatch
+        env:
+          GITHUB_TOKEN: ${{ secrets.W3_PAT || github.token }}
+          APPLY_ISSUE: ${{ inputs.apply_issue || 'true' }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          python3 scripts/lint_doors.py \
+            --owner rtynbirf \
+            --apply-issue "$APPLY_ISSUE" \
+            --summary "${GITHUB_STEP_SUMMARY:-/dev/stdout}"
+
+      - name: Самопроверка парсера (ноль ложных срабатываний)
+        run: python3 scripts/lint_doors.py --selftest

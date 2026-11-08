@@ -1,0 +1,64 @@
+# Волна ×3 · W3-F2 · repo-doctrine#16 — «ДПР-грейдер»: трёхкоридорный конвейер Dependabot.
+#
+# Сингулярный ход issue #16: не бинарное авто-мерж, а грейдер риска:
+#   A  — patch/minor + CI 🟢 → автопилот (approve + auto-merge, как в мире);
+#   B  — major → сводка рисков в тело ДПР, решение осознанное;
+#   C  — геномные/конституционные ДПР → конверт крови: рой решает дополнением,
+#        грейдер сам не мержит никогда.
+#
+# Переиспользуемость: workflow_call + workflow_dispatch — один грейдер на весь
+# аккаунт; для чужих репо передавайте owner/name входом repo.
+#
+# Токен: если секрет W3_PAT не задан, берётся github.token — его охвата
+# хватает только на этот репозиторий; чужие репо тогда читаются без мутаций.
+# Существующие workflows (guardian-tripwire, self-audit) не тронуты.
+
+name: wave3-dpr-grader
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: 'owner/name репозитория с ДПР (пусто = этот репозиторий)'
+        required: false
+        default: ''
+      apply:
+        description: 'true = применять действия коридоров; false = сухой прогон'
+        required: false
+        default: 'false'
+  workflow_call:
+    inputs:
+      repo:
+        required: false
+        type: string
+        default: ''
+      apply:
+        required: false
+        type: string
+        default: 'false'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: wave3-dpr-grader
+  cancel-in-progress: false
+
+jobs:
+  grade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Грейдер коридоров A/B/C
+        env:
+          GITHUB_TOKEN: ${{ secrets.W3_PAT || github.token }}
+          REPO_IN: ${{ inputs.repo }}
+          APPLY: ${{ inputs.apply || 'false' }}
+        run: |
+          REPO="${REPO_IN:-${{ github.repository }}}"
+          python3 scripts/dpr_grader.py \
+            --run --repo "$REPO" \
+            --apply "$APPLY" \
+            --summary "${GITHUB_STEP_SUMMARY:-/dev/stdout}"

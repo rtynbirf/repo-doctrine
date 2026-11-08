@@ -1,0 +1,48 @@
+name: idempotency-gate
+# Волна ×3 · W3-E · Гейт «Идемпотентность-храповик» (предложение repo-doctrine#31).
+# Правило трёх проходов на контрольном демо-мутаторе: dry-run → apply → контрольный
+# dry-run (0 строк диффа), плюс скан воркфлоу на мутаторы без --dry-run и проверка
+# цепочек в mutations.yaml. Существующие воркфлоу репо не тронуты.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ratchet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Проход 1 — демо-мутатор --dry-run (отчёт диффа в job summary)
+        run: python3 scripts/canonical_check.py demo --dry-run | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Проход 2 — apply после разбора отчёта
+        run: python3 scripts/canonical_check.py demo --apply
+
+      - name: Проход 3 — контрольный --dry-run обязан показать 0 строк диффа
+        run: |
+          OUT=$(python3 scripts/canonical_check.py demo --dry-run | tee -a "$GITHUB_STEP_SUMMARY")
+          echo "$OUT" | grep -q "0 строк" || {
+            echo "::error::Второй дифф не пуст — храповик нарушен, нужен авто-issue инцидента"
+            exit 1
+          }
+
+      - name: Скан мутаторов без --dry-run (со самотестом сканера)
+        run: python3 scripts/canonical_check.py scan --selftest
+
+      - name: Проверка цепочек dry-run → apply → dry-run-2 в реестре
+        run: python3 scripts/canonical_check.py verify
+
+      - name: Коммит состояния храповика (только реестр и бейдж)
+        run: |
+          git config user.name "idempotency-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add mutations.yaml demo-badge.md
+          if git diff --cached --quiet; then
+            echo "Изменений нет — храповик уже запломбирован."
+            exit 0
+          fi
+          git commit -m "ratchet: цепочка demo dry-run → apply → dry-run-2 $(date -u +%F)"
+          git push
