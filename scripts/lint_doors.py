@@ -17,6 +17,7 @@ import json
 import os
 import re
 import sys
+import urllib.parse
 import urllib.error
 import urllib.request
 
@@ -30,6 +31,8 @@ CRON_OK = re.compile(r"[\d*/,-]+\s+[\d*/,-]+\s+[\d*/,-]+\s+[\d*/,-]+\s+[\d*/,-]+
 
 def http(url: str, token: str | None, method: str = "GET", payload: dict | None = None,
          accept: str = "application/vnd.github+json"):
+    # кириллические ветки/пути в URL: кодируем путь (ASCII-safe), иначе http.client падает на encode
+    url = urllib.parse.quote(url, safe=":/?&=%#[]@!$'()*+,;~-._")
     data = json.dumps(payload).encode("utf-8") if payload is not None else None
     req = urllib.request.Request(url, data=data, method=method)
     req.add_header("Accept", accept)
@@ -42,6 +45,9 @@ def http(url: str, token: str | None, method: str = "GET", payload: dict | None 
             return resp.status, (json.loads(body) if accept.endswith("json") else body)
     except urllib.error.HTTPError as e:
         return e.code, ""
+    except (urllib.error.URLError, OSError) as e:
+        print(f"  сеть: {e}")
+        return 0, ""
 
 def parse_doors(text: str) -> tuple[bool, bool, list[str]]:
     """(есть schedule, есть дверь, кроны) по сырому тексту YAML."""
