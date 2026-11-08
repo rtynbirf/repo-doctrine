@@ -1,0 +1,37 @@
+# repo-doctrine
+> Доктрина настройки GitHub-репозиториев: человеком для человека. Чек-листы флагов, защита веток, токены, конвенции агентов, аварийные процедуры, карта аккаунта.
+
+Автоген 2026-11-08 · источник: живой GitHub API (номера и файлы не руками) · владелец rtynbirf · ветка `main`
+
+## Мембрана
+- README.md — для человека (ДОКТРИНА РЕПОЗИТОРИЕВ — человеком для человека)
+- AGENTS.md — есть
+- LICENSE — CC-BY-4.0
+- topics: agents, checklists, doctrine, documentation, github, meta-tools, security
+
+## Карта корня
+- .github/
+- .gitignore
+- 01-чеклист-настроек.md
+- 02-ветки-и-защита.md
+- 03-токены-и-секреты.md
+- 04-конвенции-агентов.md
+- 05-аварийные-процедуры.md
+- 06-карта-аккаунта.md
+- 07-2fa-инструкция.md
+- 08-аудит-аккаунта-2026-11-08.md
+- 09-дорожная-карта-роя-2026-11-08.md
+- 10-аудит-CI-и-артефактов-2026-11-08.md
+- 11-дорожная-карта-роя-волна-CI-2026-11-08.md
+- AGENTS.md
+- CODEOWNERS
+- … ещё 7
+
+## CI
+- workflow: guardian-tripwire
+- workflow: self-audit
+
+## Ссылки
+- [GitHub](https://github.com/rtynbirf/repo-doctrine)
+- [README](https://github.com/rtynbirf/repo-doctrine/blob/main/README.md)
+- [raw llms.txt](https://raw.githubusercontent.com/rtynbirf/repo-doctrine/main/llms.txt)
