@@ -16,8 +16,8 @@ mutators:
     script: scripts/canonical_check.py
     call: demo
     target: demo-badge.md
-    applied: false
-    dry_run_1: ""
-    apply: ""
-    dry_run_2: ""
+    applied: true
+    dry_run_1: "2026-11-08T19:13:11Z дифф: 1 строк"
+    apply: "2026-11-08T19:13:11Z apply"
+    dry_run_2: "2026-11-08T19:13:11Z дифф: 0 строк"
 canon_table: []
