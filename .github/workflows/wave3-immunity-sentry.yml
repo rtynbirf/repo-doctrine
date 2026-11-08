@@ -35,7 +35,6 @@ jobs:
       - name: Страж прямого пуша в main
         env:
           EVENT_NAME: ${{ github.event_name }}
-          EVENT_PATH: ${{ github.event_path }}
           ACTOR: ${{ github.actor }}
           EXTRA_ALLOW: ${{ vars.WAVE3_ALLOW_DIRECT }}
           STRICT: ${{ vars.WAVE3_SENTRY_STRICT || 'false' }}
@@ -47,6 +46,7 @@ jobs:
               print("🟡 ручной прогон: страж в режиме самопроверки — конфигурация читаема")
               sys.exit(0)
 
+ HEAD
           if not os.environ.get("EVENT_PATH"):
               print("🟡 payload события недоступен — страж в режиме самопроверки")
               sys.exit(0)
