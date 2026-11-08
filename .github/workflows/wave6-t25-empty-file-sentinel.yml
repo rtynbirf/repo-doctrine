@@ -1,0 +1,32 @@
+# Волна ×6 · 6-D · repo-doctrine#34 — T25 «Сентинел пустых файлов».
+# CI-гейт «в репе нет файлов 0 байт» (урок uace-pml: пустой ZIP прошёл и
+# линтер, и пломбу). Белый список: .gitkeep, .nojekyll.
+# Храповик: существующие workflows репо не тронуты, это отдельный новый гейт.
+name: wave6-t25-empty-file-sentinel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wave6-t25-empty-file-sentinel
+  cancel-in-progress: false
+
+jobs:
+  sentinel:
+    name: empty-file-sentinel
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout (пин по SHA — учитель OpenSSF Scorecard)
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: empty-file-sentinel — скан репо на файлы 0 байт
+        run: python3 scripts/empty_file_sentinel.py
+
+      - name: Тесты сентинела (храповик: тесты только добавляются)
+        run: python3 -m unittest discover -s tests -p "test_empty_file_sentinel*.py" -v
