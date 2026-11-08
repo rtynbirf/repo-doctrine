@@ -28,5 +28,5 @@ jobs:
       - name: empty-file-sentinel — скан репо на файлы 0 байт
         run: python3 scripts/empty_file_sentinel.py
 
-      - name: Тесты сентинела (храповик: тесты только добавляются)
+      - name: Тесты сентинела — храповик, тесты только добавляются
         run: python3 -m unittest discover -s tests -p "test_empty_file_sentinel*.py" -v
