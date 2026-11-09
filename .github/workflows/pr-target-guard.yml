@@ -28,7 +28,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - name: Скан по ростеру SBOM (git sparse-клоны)
+      - name: Checkout (ростер-зеркало agentic/)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Скан по ростеру (git blob:none-клоны)
         run: |
           set -euo pipefail
           python3 - <<'PYEOF'
