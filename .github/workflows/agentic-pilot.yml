@@ -1,0 +1,29 @@
+# Волна ×8 · repo-doctrine#18 (Э-2.4): пилот «Markdown → Actions».
+# Еженедельно: компиляция задач из agentic/*.md и исполнение с fail-closed.
+name: agentic-pilot — Markdown→Actions
+
+on:
+  schedule:
+    - cron: '37 4 * * 1'   # понедельник
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agentic-pilot
+  cancel-in-progress: false
+
+jobs:
+  compile-and-run:
+    name: Компиляция задач и исполнение
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: "md2actions: компиляция + исполнение"
+        run: python3 tools/md2actions.py agentic/
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

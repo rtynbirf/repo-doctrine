@@ -1,0 +1,59 @@
+# Волна ×8 · гард против brownout `pull_request_target`
+# GitHub: temporary enforcement 09.11 и 16.11 (16:00–18:00 UTC),
+# постоянная — с 02.12.2026. Публичные репы с этим триггером и без
+# policy будут ронять релизные пайплайны. Этот гард раз в две недели
+# сканирует аккаунт код-поиском: найден триггер = красный маяк.
+# Срез 09.11 (вход волны ×8): 0 хитов по всему аккаунту.
+name: pr-target-guard — brownout-гард аккаунта
+
+on:
+  schedule:
+    - cron: '21 3 2,16 * *'   # 2-е и 16-е числа — против дат принуждения
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-target-guard
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    name: Код-поиск pull_request_target по аккаунту
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Сканирование триггера по всем репо владельца
+        run: |
+          set -euo pipefail
+          python3 - <<'PYEOF'
+          import json, os, urllib.request, urllib.parse
+
+          API = 'https://api.github.com'
+          tok = os.environ.get('GITHUB_TOKEN', '')
+          h = {'User-Agent': 'pr-target-guard', 'Accept': 'application/vnd.github+json'}
+          if tok:
+              h['Authorization'] = f'Bearer {tok}'
+
+          q = urllib.parse.quote('pull_request_target user:rtynbirf in:file')
+          req = urllib.request.Request(f'{API}/search/code?q={q}&per_page=100', headers=h)
+          with urllib.request.urlopen(req, timeout=40) as r:
+              res = json.loads(r.read().decode())
+          hits = [{'repo': i['repository']['full_name'], 'path': i['path']} for i in res.get('items', [])]
+
+          lines = ['# pr-target-guard (brownout 09.11/16.11, enforcement 02.12)', '',
+                   f'хитов `pull_request_target` по аккаунту: **{len(hits)}**']
+          for x in hits:
+              lines.append(f"- ❌ `{x['repo']}` → `{x['path']}`")
+          lines += ['', 'правило: триггер работает с доверием базовой репы и её секретами;',
+                    'если хит найден — перевести на `pull_request` + явно выписанные permissions,',
+                    'или завести policy-исключение до 02.12.2026.']
+
+          s = os.environ.get('GITHUB_STEP_SUMMARY')
+          if s:
+              open(s, 'a', encoding='utf-8').write('\n'.join(lines) + '\n')
+          print('\n'.join(lines))
+          assert not hits, 'найдены pull_request_target — сработает brownout/enforcement'
+          print('OK: аккаунт чист от pull_request_target')
+          PYEOF
