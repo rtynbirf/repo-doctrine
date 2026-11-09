@@ -3,10 +3,12 @@
 # Алгоритм: sha256, формат строки: <sha256>  <путь>, сортировка по пути (кодепоинтная).
 # Живые файлы (ведутся воркфлоу, в заморозку не входят): MANIFEST_SHA256.txt, PULSE.md, mutations.yaml, demo-badge.md
 883b95e3be554fbadd92b315e4a8c6ea6ca688b64924e22dd61222b07f683507  .github/dependabot.yml
-e33b1a311ebc91fa8854aecd6c092db7e9fec468d225895ac20801367db96477  .github/social-preview.png
+33579a2ff818b0fd3fe4036e27c8b2f49d9dd3a2982593a2f41373f9e9fabb60  .github/social-preview.png
+1eee3c27e1c4a7852771ea1b57ac270ef0f3258f23a281b96e5179b99e8c35f9  .github/workflows/agentic-pilot.yml
 c1a422394c25a1e04bd48c96853e6e75bff5b4a6465f146f4f446b19b0055701  .github/workflows/guardian-tripwire.yml
 cf541f39f4795bf5d56178be09d58b7c3fc8347e0e8fde1e5e2d2d0b74c4daa2  .github/workflows/idempotency-gate.yml
 5217f4b19dc9d93a427a65cea59972a0b10a1ea66abc40cd1681840972c9dd69  .github/workflows/pin-drift-watch.yml
+f7c4cccf9c4d39b2694349d7312dbebf9ad8f990ca5fb9685558df42286d3bdf  .github/workflows/pr-target-guard.yml
 77dda52e77698cb3517002a6d1d06db128a63ff76942888c0d2144b8bdf5a73a  .github/workflows/self-audit.yml
 c97c3d6f75867d81dd30e99f9004a8da868d3ac30cc86481c696b7038d0bb8e3  .github/workflows/wave3-door-lint.yml
 20eca2c23553adaed264faf7165556a437131ec7f0cd9e02f378cf79dbd5efa7  .github/workflows/wave3-dpr-grader.yml
@@ -48,7 +50,10 @@ d11fdc8d80952306beef7882015ad91ea99c371032c5fdccbe98f0cac7b7c2df  Makefile
 4711fbf07a43dcbe5b1f385dadfb63cc9f006c2f24ac1b0a7263d2f0452015ea  SECURITY.md
 aea86a4a2a4d2da27ca2a1804462de852f6875ad5d4897b30769569fe2412eb7  TODO.md
 3bdca64ac4719110f152fd7c963953e41b6e3907e4a5bf386f43295b53db97aa  WORK_REPORT.md
-0e1c5d7d60a63e1944487fd18beb98378692745c081c4b4b6ccd26bc0d0fdc46  banner.png
+f7cba53c9a9d68b56a946b2e649673ef8d2f27c7aa6a2818cf2db2bc9d9babf7  agentic/README.md
+39a177e637ca4398fd0a94715ff2b0b408ee895e9a24f47b2bcd2413e5d737c7  agentic/ЗАДАЧА-01-самосмотр-доктрины.md
+eceb81a9bdb912efac52d7f578aef8d56364c16724aeb992c8fa3c3f4bf2fcce  agentic/ЗАДАЧА-02-мембрана-аккаунта.md
+b56bfef3f38dacf88f98bbfbcb1320e3aa9a32c9ea68aa01229fd2a2ff7de407  banner.png
 a5a4aef49a555858a2c2c318ba41e7d8086cf715e376ded1c594da5c5fa67fb0  llms.txt
 bd15df5218797688840293806764dee5597199b811d93c8421e90aced588b417  scripts/canonical_check.py
 71c7dbdbd289393e34c405cdd6361faddf0a51c7844258e4e76c52898631bca6  scripts/dpr_grader.py
@@ -60,5 +65,6 @@ af91b4336f9afa1713117233aea647e9a0ce1fe11d16312acea9109f2567aa41  scripts/token_
 0c38792dc526b06d409daaeff4eba5d030a3e9b4a381e0f57d93ad075311ca6a  swarm-doctrine.json
 cb7df1f1b462c74b351d1ed6897d761e8a8c10c067d63fccfa28a21b894d20cf  tests/test_empty_file_sentinel.py
 1c4b3fb759ff54a170b5801c2c5b65c0ef9764b382e87e92cc1e4e3215396668  tests/test_manifest_check.py
+2e8633b711f0c55e60f954df8f979bae7d5866b14d6f8706f997d748be9d75ad  tools/md2actions.py
 cea60e6ea9aa849dab147416d3d10febc9374e8c50c43546b8c76763adad393c  предложения-по-карте-T01-T12-2026-11-08.md
 ec0829ac4ce1e0468869eea15b131f945f5a9322c09ba059129de1315deb1ca1  предложения-по-карте-T13-T23-волна-CI-2026-11-08.md
