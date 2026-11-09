@@ -1,0 +1,258 @@
+{
+ "source": "edinyy-svod/sbom/account-sbom.cdx.json (T01, канон роя; SBOM приватный, поэтому ростер зеркалится сюда)",
+ "snapshot": "2026-11-09T20:27:17Z",
+ "cells": [
+  {
+   "name": ".github",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "agryp",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "cell-rs",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "cell-swarm",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "cell65-host",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "commons",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "domovoy-tweaker",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "edinyy-svod",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "github-runbook",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "global-video-platforms-registry",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "H-PE11-PHOENIX",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "karaoke-dream",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "language-through-the-ages",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "markitdown",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "neutral-browser",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "nous",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "os-forge",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "polimat-hub",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "polimat-task174",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "polymath-atlas-v107",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "polymath-gen",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "polymath-os",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "polymath-tools-atlas",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "red-thread-debt-audit",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "release-vault",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "rent-mechanism-q43",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "repo-doctrine",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "revo",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "rtynbirf",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "rtynbirf.github.io",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "rumu",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "true"
+  },
+  {
+   "name": "runtime-protocol",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "ruvson-lyrics",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "ruvson-rse2",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "singulyar",
+   "branch": "rumu",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "singulyar-llm",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "task-graph-propagator",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "uace-pml",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "universal-agent",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "voice-atlas-llm",
+   "branch": "main",
+   "visibility": "public",
+   "archived": "false"
+  },
+  {
+   "name": "web-evolution-1991-2026",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  },
+  {
+   "name": "windows-chronicle",
+   "branch": "main",
+   "visibility": "private",
+   "archived": "false"
+  }
+ ]
+}
