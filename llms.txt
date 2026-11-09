@@ -35,3 +35,4 @@
 - [GitHub](https://github.com/rtynbirf/repo-doctrine)
 - [README](https://github.com/rtynbirf/repo-doctrine/blob/main/README.md)
 - [raw llms.txt](https://raw.githubusercontent.com/rtynbirf/repo-doctrine/main/llms.txt)
+- [PULSE.md](PULSE.md): живой пульс репозитория — прогоны, пломбы, здоровье.
