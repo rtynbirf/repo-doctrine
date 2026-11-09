@@ -2,11 +2,11 @@
   "schema": "swarm-doctrine/1",
   "account": "rtynbirf",
   "repo": "rtynbirf/repo-doctrine",
-  "integrated_at": "2026-11-09T00:57:15Z",
-  "integrated_by": "polimat · мандат Хозяина TH-DOCT-04",
+  "integrated_at": "2026-11-09T01:38:42Z",
+  "integrated_by": "polimat · мандат Хозяина TH-DOCT-04 · закон №12 из разбора инбокса 172 → 0",
   "doctrine_canon": {
     "repo": "rtynbirf/repo-doctrine",
-    "commit": "a67184bc9527db5e688a90d0a77202a6918450aa",
+    "commit": "91b0713047394f21f575b868ec6ca8981bff1df6",
     "must_read": [
       "04-конвенции-агентов.md",
       "20-грабли-и-золотая-середина-агентов-2026-11-09.md §2–§3"
@@ -14,5 +14,7 @@
     "laws_count": 11
   },
   "law_11_token_probe": "токен без живой пробы — не ключ: GET /user с ключом → HTTP 200 + github-authentication-token-expiration ДО первой операции мандата; 401/403 = честный ноль",
-  "checklist": "файл 20 §3 «10 касаний» — прогон перед каждым действием"
+  "checklist": "файл 20 §3 «11 касаний» — прогон перед каждым действием",
+  "laws_count": 12,
+  "law_12_inbox_hygiene": "инбокс чист до закрытия задачи: свои прогоны зелёные по API (пин-гонка rumu — реран после догона TH-RTP-04, не правка контента), новые файлы в реестрах гейтов тем же коммитом (REUSE.toml/portability.json/манифест), уведомления сняты тобой же постранично до нуля (DELETE /notifications/threads/{id}); disable — последняя мера с записанной причиной"
 }
