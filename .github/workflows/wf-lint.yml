@@ -1,0 +1,130 @@
+# Волна ×15 «ЗИЗМОР» · гард-храповик гигиены воркфлоу аккаунта
+# Мировой тренд 2026 (wiz.io / awesome-copilot-hardening / GitHub roadmap):
+# линт воркфлоу — главный недостающий контур поставки. zizmor ловит то, что
+# не видит ни SBOM, ни pr-target-guard: template-injection в run:, избыточные
+# permissions, непины actions, cache-poisoning, dangerous-triggers.
+#
+# Принцип храповика (self-healing CI): гард падает ТОЛЬКО на прирост находок
+# против снимка agentic/zizmor-baseline.json. Чинить всё разом — чужая волна;
+# храповик гарантирует одно: хуже не станет никому и никогда. Снижение
+# baseline — только ручным коммитом нового снимка (процедура в шапке снимка).
+#
+# Уроки живых прогонов ×8 учтены:
+# - приватные клетки в CI недоступны (GITHUB_TOKEN репо-скоупа → 401) — их
+#   сканирует владелец вне CI; здесь только публичные клетки ростера;
+# - транспорт — git blob:none-клоны, НЕ REST API (анонимный REST — 60/ч на IP);
+# - zizmor пинен по версии (тренд cooldown: 80-90% supply-chain атак ловится
+#   задержкой обновления инструментов).
+name: wf-lint — zizmor-храповик гигиены воркфлоу
+
+on:
+  schedule:
+    - cron: '37 4 * * 1'   # понедельник, врозь от часовых волны ×8 (07:00) и pr-target-guard (03:21)
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wf-lint
+  cancel-in-progress: false
+
+jobs:
+  lint:
+    name: Скан публичных клеток zizmor против храповика
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout (пин из действующих зелёных прогонов волны)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: zizmor (пин версии — cooldown-тренд)
+        run: pip install "zizmor==1.32.0"
+
+      - name: Скан ростера против храповика
+        run: |
+          set -euo pipefail
+          python3 - <<'PYEOF'
+          import json, os, subprocess, time, collections, sys
+
+          BASELINE = 'agentic/zizmor-baseline.json'
+          base = json.load(open(BASELINE, encoding='utf-8'))
+          roster = json.load(open('agentic/РОСТЕР-АККАУНТА.json', encoding='utf-8'))
+          cells = [c for c in roster['cells']
+                   if c.get('visibility') == 'public' and c.get('archived') != 'true']
+          print(f"ростер (снимок {base['snapshot'][:10]}): {len(cells)} публичных клеток, инструмент {base['tool']}")
+
+          WORK = '/tmp/wflint'
+          os.makedirs(WORK, exist_ok=True)
+          cur, skipped = {}, 0
+          for cell in cells:
+              name = cell['name']
+              dest = f'{WORK}/{name}'
+              subprocess.run(['rm', '-rf', dest], check=True)
+              rc = subprocess.run(
+                  ['git', 'clone', '-q', '--depth', '1', '--filter=blob:none',
+                   f'https://github.com/rtynbirf/{name}.git', dest],
+                  capture_output=True, text=True, timeout=180)
+              wfd = f'{dest}/.github/workflows'
+              if rc.returncode != 0 or not os.path.isdir(wfd):
+                  skipped += 1
+                  continue
+              r = subprocess.run(['zizmor', '--no-online-audits', '--format=json', wfd],
+                                 capture_output=True, text=True, timeout=300)
+              try:
+                  finds = json.loads(r.stdout or '[]')
+              except Exception:
+                  skipped += 1
+                  continue
+              c = collections.Counter((x['ident'], x['determinations']['severity'].lower()) for x in finds)
+              cur[name] = {f'{a}|{s}': n for (a, s), n in sorted(c.items())}
+              time.sleep(0.3)
+
+          # сравнение с храповиком
+          base_tot = collections.Counter()
+          for repo, m in base['repos'].items():
+              for k, n in m.items():
+                  a, s = k.rsplit('|', 1)
+                  base_tot[(a, s)] += n
+          cur_tot = collections.Counter()
+          for repo, m in cur.items():
+              for k, n in m.items():
+                  a, s = k.rsplit('|', 1)
+                  cur_tot[(a, s)] += n
+
+          regressions, improvements = [], []
+          all_keys = set(base_tot) | set(cur_tot)
+          for k in sorted(all_keys):
+              b, c = base_tot.get(k, 0), cur_tot[k]
+              if c > b:
+                  regressions.append((k, b, c))
+              elif c < b:
+                  improvements.append((k, b, c))
+          # новая клетка с находками, которых не было в снимке
+          new_cells = [r for r in cur if r not in base['repos'] and cur[r]]
+
+          L = ['# wf-lint · zizmor-храповик (волна ×15)', '',
+               f"ростер-снимок: {base['snapshot'][:10]} · публичных клеток просканировано: **{len(cur)}** · skip: **{skipped}** · инструмент: `{base['tool']}`",
+               f'итого находок: **{sum(cur_tot.values())}** (снимок: {sum(base_tot.values())})',
+               '', '| клетка | high | всего |', '|---|---|---|']
+          for name in sorted(cur):
+              L.append(f'| `{name}` | {sum(n for k, n in cur[name].items() if k.endswith("|high"))} | {sum(cur[name].values())} |')
+          L += ['', '## Храповик', '']
+          if regressions:
+              L += ['### 📈 ПРИРОСТ (гард красный):'] + [f'- ❌ `{a}`/{s}: {b} → {c}' for (a, s), b, c in regressions]
+          else:
+              L += ['- ✅ прироста нет — храповик держит']
+          if improvements:
+              L += ['### 🎉 Дотянуто (можно перерезать снимок):'] + [f'- ✅ `{a}`/{s}: {b} → {c}' for (a, s), b, c in improvements]
+          if new_cells:
+              L += ['### 🆕 Новые клетки с находками (внести в снимок):'] + [f'- `{r}`: всего={sum(cur[r].values())}' for r in new_cells]
+          L += ['', 'правило: снижение чисел — только коммитом нового снимка `agentic/zizmor-baseline.json`;',
+                'временные отказы клонов не красят гард (инфраструктура ≠ регресс).']
+
+          s = os.environ.get('GITHUB_STEP_SUMMARY')
+          if s:
+              open(s, 'a', encoding='utf-8').write('\n'.join(L) + '\n')
+          print('\n'.join(L))
+          assert not regressions, f'храповик: прирост находок {regressions}'
+          print('OK: храповик гигиены воркфлоу держит')
+          PYEOF

@@ -1,0 +1,122 @@
+{
+ "snapshot": "2026-11-10T09:40:00Z",
+ "tool": "zizmor 1.32.0 --no-online-audits",
+ "scope": "публичные клетки ростера (42, агенты-канон); приватные сканирует владелец вне CI",
+ "note": "храповик волны x15: гард wf-lint падает только на ПРИРОСТ находок против этого снимка; artipacked-фиксы x15 уже учтены (18 убрано в 4 клетках)",
+ "repos": {
+  ".github": {
+   "artipacked|medium": 3,
+   "excessive-permissions|high": 1
+  },
+  "agryp": {
+   "artipacked|medium": 1
+  },
+  "cell-rs": {
+   "artipacked|medium": 2
+  },
+  "cell-swarm": {
+   "artipacked|medium": 11
+  },
+  "cell65-host": {
+   "artipacked|medium": 1,
+   "excessive-permissions|high": 1
+  },
+  "commons": {
+   "artipacked|medium": 13,
+   "template-injection|high": 2
+  },
+  "domovoy-tweaker": {
+   "artipacked|medium": 9,
+   "excessive-permissions|high": 2,
+   "template-injection|high": 2
+  },
+  "global-video-platforms-registry": {
+   "artipacked|medium": 2
+  },
+  "karaoke-dream": {
+   "artipacked|medium": 1
+  },
+  "markitdown": {
+   "artipacked|medium": 5,
+   "self-repository|low": 3
+  },
+  "neutral-browser": {
+   "artipacked|medium": 4
+  },
+  "os-forge": {
+   "artipacked|medium": 2
+  },
+  "polymath-atlas-v107": {
+   "artipacked|medium": 2
+  },
+  "polymath-atlas": {
+   "artipacked|medium": 2,
+   "excessive-permissions|medium": 1,
+   "unpinned-uses|high": 6
+  },
+  "polymath-gen": {
+   "artipacked|medium": 1
+  },
+  "polymath-os": {
+   "artipacked|medium": 3,
+   "cache-poisoning|high": 1,
+   "superfluous-actions|informational": 1,
+   "template-injection|high": 6
+  },
+  "polymath-stckg-core": {
+   "artipacked|medium": 4
+  },
+  "polymath-tools-atlas": {
+   "artipacked|medium": 3
+  },
+  "release-vault": {
+   "artipacked|medium": 3
+  },
+  "revo": {
+   "artipacked|medium": 2
+  },
+  "rtynbirf.github.io": {
+   "artipacked|medium": 4
+  },
+  "rtynbirf": {
+   "artipacked|medium": 6,
+   "excessive-permissions|high": 1
+  },
+  "runtime-protocol": {
+   "artipacked|medium": 4
+  },
+  "ruvson-rse2": {
+   "artipacked|medium": 3
+  },
+  "singulyar-llm": {
+   "artipacked|medium": 2
+  },
+  "singulyar": {
+   "adhoc-packages|low": 1,
+   "artipacked|medium": 6,
+   "template-injection|informational": 1
+  },
+  "uace-polymat": {
+   "artipacked|medium": 2,
+   "cache-poisoning|high": 1
+  },
+  "universal-agent": {
+   "artipacked|medium": 2
+  },
+  "voice-atlas-llm": {
+   "artipacked|medium": 3
+  }
+ },
+ "total": {
+  "adhoc-packages|low": 1,
+  "artipacked|medium": 106,
+  "cache-poisoning|high": 2,
+  "excessive-permissions|high": 5,
+  "excessive-permissions|medium": 1,
+  "self-repository|low": 3,
+  "superfluous-actions|informational": 1,
+  "template-injection|high": 10,
+  "template-injection|informational": 1,
+  "unpinned-uses|high": 6
+ }
+}
