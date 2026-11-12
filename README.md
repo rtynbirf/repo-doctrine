@@ -4,11 +4,12 @@
 
 <!--ФОРЖ:МУЗА:НАЧАЛО-->
 <div align="center">
-  <img src="repo-muse.svg" width="100%" alt="Муза repo-doctrine: картина кузни ПОЛИМАТ, раунд 9" />
+  <img src="repo-muse.svg" width="100%" alt="Муза repo-doctrine: мастерская СТЕЛА ЗАКОНА, кузня ПОЛИМАТ, раунд 11" />
   <br/>
-  <img src="forge-divider.svg" width="62%" alt="разделитель кузни ПОЛИМАТ" />
+  <img src="forge-divider.svg" width="62%" alt="делитель мастерской СТЕЛА ЗАКОНА" />
 </div>
 <!--ФОРЖ:МУЗА:КОНЕЦ-->
+
 
 
 # ДОКТРИНА РЕПОЗИТОРИЕВ — человеком для человека
