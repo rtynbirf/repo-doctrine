@@ -2,7 +2,7 @@
  "hologram": 1,
  "root": "c223bd4a2f6a56783c1fbdb1b1f671fa61c3150ecf320c82796ea5763043a696",
  "n": 73,
- "storage": 68,
+ "storage": 36,
  "r": 3,
  "self": {
   "name": "repo-doctrine",
@@ -310,6 +310,18 @@
    "desc": "release-vault — Шифрованное хранилище релизных ассетов",
    "lang": "Python",
    "cluster": "VAULT"
+  },
+  {
+   "name": "rtynbirf",
+   "desc": "ЧЕЛОВЕК=АККАУНТ=PID1 · ПОЛИМАТ=МУЛЬТИАГЕНТ · живая кузня: рой агентов, офлайн-вселенная, ни одного стороннего виджета",
+   "lang": "Python",
+   "cluster": "HUB"
+  },
+  {
+   "name": "ruvson-rse2",
+   "desc": "RUVSON SINGULARITY ENGINE v2 (RSE-2): станок одной песни Шаг 0-6 на мировых трендах 2023-2026 (Mel-Band RoFormer, Seed-VC, OpenVoice+петля, kNN-VC, CREPE-судья). Голос RUVSON.",
+   "lang": "Python",
+   "cluster": "SINGULAR"
   }
  ]
 }
