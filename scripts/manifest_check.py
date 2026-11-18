@@ -17,9 +17,9 @@ HEADER = [
     HEADER_MARK + " — файл генерится машиной, правка руками = красный гейта manifest-freshness.",
     "# Пересборка: make manifest. Гейт: make manifest-check (%s)." % REF,
     "# Алгоритм: sha256, формат строки: <sha256>  <путь>, сортировка по пути (кодепоинтная).",
-    "# Живые файлы (ведутся машинами, в заморозку не входят): MANIFEST_SHA256.txt, PULSE.md, mutations.yaml, demo-badge.md, revo_autopilot.py, revo_obhod.py",
+    "# Живые файлы (ведутся машинами, в заморозку не входят): MANIFEST_SHA256.txt, PULSE.md, mutations.yaml, demo-badge.md, revo_autopilot.py, revo_obhod.py, banner.png",
 ]
-LIVING_FILES = ("MANIFEST_SHA256.txt", "PULSE.md", "mutations.yaml", "demo-badge.md", "revo_autopilot.py", "revo_obhod.py")  # + машина правил РЕВО (деплой «правило v2») — живые, в заморозку не входят
+LIVING_FILES = ("MANIFEST_SHA256.txt", "PULSE.md", "mutations.yaml", "demo-badge.md", "revo_autopilot.py", "revo_obhod.py", "banner.png")  # + баннер музы-машины и правило-машины РЕВО — живые  # + машина правил РЕВО (деплой «правило v2») — живые, в заморозку не входят
 SKIP_DIRS = (".git",)
 
 
