@@ -37,6 +37,16 @@ jobs:
             git reset --hard -q origin/main
             [ -f revo_autopilot.py ] && python3 revo_autopilot.py || echo "revo_autopilot.py отсутствует — пропуск генерации"
             git add -A
+            staged=$(git diff --cached --name-only | grep -v '^MANIFEST_SHA256.txt$' || true)
+            if [ -n "$staged" ]; then
+              for f in $staged; do
+                [ -f "$f" ] || continue
+                newh=$(sha256sum "$f" | awk '{print $1}')
+                sed -i "s#^[0-9a-f]\{64\}  ${f}\$#${newh}  ${f}#" MANIFEST_SHA256.txt
+              done
+              git add MANIFEST_SHA256.txt
+              echo "пломба пересобрана по стаду — канон в одном коммите с мутацией"
+            fi
             if git diff --cached --quiet; then
               echo "паспорт на main уже свежий — писать нечего (попытка $attempt)"
               pushed=1
