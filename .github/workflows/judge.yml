@@ -1,0 +1,48 @@
+# Судья — разрядка тревог по зелёному такту (волна ×7, 2026-11-18).
+# Эмерджентный принцип №2 канона 27 («27-мир-практики»): страж и судья —
+# разные органы. A-HUSH держит тревогу, пока контур красный; судья разряжает
+# её при зелёном такте — независимо от того, жив ли пострадавший страж.
+# Судья не гейт: красный такт = молчание и exit 0, шума (нотификаций) ноль.
+name: судья — разрядка тревог по зелёному такту
+
+on:
+  schedule:
+    - cron: '23 4 * * *' # ежедневно, в тени суточной стены лимитов
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: judge
+  cancel-in-progress: false
+
+jobs:
+  judge:
+    name: judge
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout (пин по SHA — учитель OpenSSF Scorecard)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Зелёный такт — манифест свеж?
+        run: |
+          if make manifest-check; then
+            echo "ВЕРДИКТ: такт зелёный — тревоги подлежат разрядке"
+            echo "GREEN_TICK=1" >> "$GITHUB_ENV"
+          else
+            echo "ВЕРДИКТ: такт красный — A-HUSH держит, судья молчит"
+          fi
+
+      - name: Разрядка тревог при зелёном такте
+        if: env.GREEN_TICK == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue list -R "$GITHUB_REPOSITORY" --state open --label "alarm:manifest" --json number -q '.[].number' \
+            | while read n; do
+                gh issue close "$n" -R "$GITHUB_REPOSITORY" \
+                  -c "манифест свеж (такт судьи ${{ github.run_id }}) — страж разряжен, тревога снята"
+              done
