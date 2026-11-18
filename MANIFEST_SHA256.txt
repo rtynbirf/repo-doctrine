@@ -2,7 +2,6 @@
 # Пересборка: make manifest. Гейт: make manifest-check (repo-doctrine#24).
 # Алгоритм: sha256, формат строки: <sha256>  <путь>, сортировка по пути (кодепоинтная).
 # Живые файлы (ведутся машинами, в заморозку не входят): MANIFEST_SHA256.txt, PULSE.md, mutations.yaml, demo-badge.md, revo_autopilot.py, revo_obhod.py, banner.png
-5e4d45c1827671dde72a5a8803febedd1baab104f15c9b63adb68f7003628f54  .github/dependabot.yml
 33579a2ff818b0fd3fe4036e27c8b2f49d9dd3a2982593a2f41373f9e9fabb60  .github/social-preview.png
 1eee3c27e1c4a7852771ea1b57ac270ef0f3258f23a281b96e5179b99e8c35f9  .github/workflows/agentic-pilot.yml
 04072f4121401307136df78eb7a01f55b3e3dc60d2eaa16d66d57379d4da1ac5  .github/workflows/guardian-tripwire.yml
