@@ -2,14 +2,14 @@
 # Пересборка: make manifest. Гейт: make manifest-check (repo-doctrine#24).
 # Алгоритм: sha256, формат строки: <sha256>  <путь>, сортировка по пути (кодепоинтная).
 # Живые файлы (ведутся воркфлоу, в заморозку не входят): MANIFEST_SHA256.txt, PULSE.md, mutations.yaml, demo-badge.md
-883b95e3be554fbadd92b315e4a8c6ea6ca688b64924e22dd61222b07f683507  .github/dependabot.yml
+5e4d45c1827671dde72a5a8803febedd1baab104f15c9b63adb68f7003628f54  .github/dependabot.yml
 33579a2ff818b0fd3fe4036e27c8b2f49d9dd3a2982593a2f41373f9e9fabb60  .github/social-preview.png
 1eee3c27e1c4a7852771ea1b57ac270ef0f3258f23a281b96e5179b99e8c35f9  .github/workflows/agentic-pilot.yml
 04072f4121401307136df78eb7a01f55b3e3dc60d2eaa16d66d57379d4da1ac5  .github/workflows/guardian-tripwire.yml
 573d09349bd02b4901f7637829df500d94510024f1a28b8839d4ecd35e2156aa  .github/workflows/idempotency-gate.yml
 5217f4b19dc9d93a427a65cea59972a0b10a1ea66abc40cd1681840972c9dd69  .github/workflows/pin-drift-watch.yml
 ddfff94fa56f74cbc453b1cf6c435661d9545d0722d649676ee293a2bde6d7dd  .github/workflows/pr-target-guard.yml
-83b044a23d94171c6be8e38c4fd854377e26a8fa88480ca4dc659b0ad825d842  .github/workflows/revo-obhod.yml
+f50cc91af729d4029f1de72d6c48bbb745920665c014a4ebc1657a5f9fa54b2e  .github/workflows/revo-obhod.yml
 8643a779888b7887d35c64086f0c2dbae14cf2d3f1941b2cc01074255980f993  .github/workflows/self-audit.yml
 b34a73bd2fc90a8d935aa094a1c8af463cc405ae9772ffe72967dce358bf2bcb  .github/workflows/wave3-door-lint.yml
 98100cbfb0cb0ac728f99fbf2de2a46423528b335bee7a6fdec21cac88d9f0c9  .github/workflows/wave3-dpr-grader.yml
@@ -53,7 +53,7 @@ f5d8087437e02900c2ce36a687ee9f643b57bcc44c821087a82c8b4b2039f034  25-ритуа�
 0786274639fa9b8258c447fa2cc802b336831f7fafa6026e63ef92b40c11df5d  KNOWN_ISSUES.md
 d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744  LICENSE
 d11fdc8d80952306beef7882015ad91ea99c371032c5fdccbe98f0cac7b7c2df  Makefile
-4e7b57755708c4da03d710a0a4c481c0eb6702347c51e70f8f066fbfa131a3b4  README.md
+3c54c9e64dfeb5bdb03a40ea91cd74724112fe2ecdc243126cb66d0cb8bf5848  README.md
 4711fbf07a43dcbe5b1f385dadfb63cc9f006c2f24ac1b0a7263d2f0452015ea  SECURITY.md
 aea86a4a2a4d2da27ca2a1804462de852f6875ad5d4897b30769569fe2412eb7  TODO.md
 3bdca64ac4719110f152fd7c963953e41b6e3907e4a5bf386f43295b53db97aa  WORK_REPORT.md
@@ -67,7 +67,7 @@ ea3081709c239233518d1fbfdb79db18f64f0bd1ddb3776bc4431d648107254f  banner.png
 bb135fdafbf7b8dd66563c6ab94f6fced6a3e43e2e82d3885d10533fd8983989  hologram.json
 a0ba65c113038bd445fc4d389812ee73a4e1d5035c2120979c36c5026674cbd5  llms.txt
 72066fe1d4ef0a3f2037cb9b4029ad066e7e15582b4d6dae5b741a18d2cc1ddc  repo-muse.svg
-58ecaae5d186d4cb8f7c036b6b24c60b7d288aabcd05628339b7667ad748320e  revo-page.svg
+3085feb7b06b7f7cf0f2988951f4ef3966877eea0c3386ded681895b5547eaa2  revo-page.svg
 61fc3863de4df8f84a14fa7838dc99a8980bcf96a21c7abedd5a89f8164be86d  revo_autopilot.py
 bd15df5218797688840293806764dee5597199b811d93c8421e90aced588b417  scripts/canonical_check.py
 71c7dbdbd289393e34c405cdd6361faddf0a51c7844258e4e76c52898631bca6  scripts/dpr_grader.py
