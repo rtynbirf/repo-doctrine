@@ -1,12 +1,12 @@
 <div align="center">
-  <img src="banner.png" alt="repo-doctrine — Доктрина настройки репозиториев: человеком — для человека" width="100%">
+  <img src="https://cdn.jsdelivr.net/gh/rtynbirf/repo-doctrine@main/banner.png" alt="repo-doctrine — Доктрина настройки репозиториев: человеком — для человека" width="100%">
 </div>
 
 <!--ФОРЖ:МУЗА:НАЧАЛО-->
 <div align="center">
-  <img src="repo-muse.svg" width="100%" alt="Муза repo-doctrine: мастерская СТЕЛА ЗАКОНА, кузня ПОЛИМАТ, раунд 12 · REVE=РЕВО" />
+  <img src="https://cdn.jsdelivr.net/gh/rtynbirf/repo-doctrine@main/repo-muse.svg" width="100%" alt="Муза repo-doctrine: мастерская СТЕЛА ЗАКОНА, кузня ПОЛИМАТ, раунд 12 · REVE=РЕВО" />
   <br/>
-  <img src="forge-divider.svg" width="62%" alt="делитель мастерской СТЕЛА ЗАКОНА" />
+  <img src="https://cdn.jsdelivr.net/gh/rtynbirf/repo-doctrine@main/forge-divider.svg" width="62%" alt="делитель мастерской СТЕЛА ЗАКОНА" />
 </div>
 <!--ФОРЖ:МУЗА:КОНЕЦ-->
 
