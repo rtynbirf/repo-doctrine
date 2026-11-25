@@ -2,10 +2,10 @@
 # ВИТРИННЫЙ ДОКТОР ДОМА · конечный автомат SCAN → DIFF → APPLY → VERIFY → REPORT (+ LLMS-GEN)
 # Роль: витрина роя живёт в метаданных GitHub (description/topics) и в агентной двери
 # (llms.txt на Pages). Доктор держит оба в каноне: не выдумывает, доклеивает, идемпотентен.
-# Токен: только env GH_TOKEN (протокол дома). Архивные тела — законное состояние:Doctor
+# Токен: только env GH_TOKEN (протокол дома). Архивные тела — законное состояние: Doctor
 # их не разархивирует; их место — раздел «Архив» llms-карты.
 # Запуск: GH_TOKEN=... python3 vitrina_doctor.py [--dry-run] [--llms OUT.md]
-import os, sys, json, time, base64, urllib.request, urllib.error
+import os, sys, json, re, time, base64, urllib.request, urllib.error
 
 API = "https://api.github.com"
 OWNER = "rtynbirf"
@@ -19,8 +19,9 @@ CANON_TOPICS = {
     "dogovor": ["pid1", "doctrine", "governance", "agent-governance", "ssot"],
     "lfs-core": ["pid1", "testing", "audit", "agent-infrastructure", "python"],
     "repo-seed": ["pid1", "template", "boilerplate", "github", "automation"],
+    "factum": ["pid1", "emergence", "alife", "fsm", "python"],
 }
-CANON_DESC_IF_EMPTY = {  # описания уже стоят у всех 77 — правило работает только на пустоту
+CANON_DESC_IF_EMPTY = {  # описания стоят у всех живых клеток — правило работает только на пустоту
 }
 
 def api(url, method="GET", body=None, tries=4):
@@ -114,7 +115,16 @@ def llms_map(repos):
           "- [Лицо профиля](https://github.com/rtynbirf): канон пинов, геном роя, летопись",
           f"- [Карта (этот файл)](https://rtynbirf.github.io/llms.txt)",
           f"- [Плеер-мембрана](https://rtynbirf.github.io/): MEGA-PLAYER SINGULYAR",
-          f"- raw llms.txt](https://raw.githubusercontent.com/{OWNER}/rtynbirf.github.io/main/llms.txt)"]
+          f"- [raw llms.txt](https://raw.githubusercontent.com/{OWNER}/rtynbirf.github.io/main/llms.txt)"]
+    # ИММУНИТЕТ ССЫЛОК (шрам 2026-11-22: у raw-двери в живой карте была откушена
+    # открывающая скобка; класс дефекта «строка-ссылка без [» ) — каждая строка-ссылка
+    # обязана иметь пару [текст](url), иначе Doctor молчит и выпускает калеку.
+    # Подмена ловится здесь, до записи байтов. Вердикт только числами: 0 = калека.
+    bad = [ln for ln in L
+           if ln.startswith("- ") and "](" in ln
+           and not re.match(r"^- \[[^\]]+\]\(https?://[^)]+\)", ln)]
+    if bad:
+        raise RuntimeError(f"LLMS-GEN: bitten links caught: {len(bad)} (class «строка без [») : " + " | ".join(b[:3]))
     return "\n".join(L) + "\n"
 
 # ── REPORT ──
